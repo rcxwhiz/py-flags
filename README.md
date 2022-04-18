@@ -10,6 +10,10 @@ time to download is printed when finished. The program is
 meant to demonstrate the effectiveness of threading in
 IO-bound situations.
 
+The different ways to download flags are represented by
+multiple implementations of an abstract `FlagDowloader`
+interface.
+
 You can configure the download location for the flags and the
 download method with constants at the top of `flags.py`.
 

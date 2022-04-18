@@ -32,6 +32,8 @@ class FlagDownloader(ABC):
         pass
 
 
+# each implementation of FlagDownloader has an internal method to download one flag
+# and a public method to download all flags
 class SequentialFlagDownloader(FlagDownloader):
     @classmethod
     def _download_flag(cls, country_code):
@@ -103,7 +105,12 @@ if __name__ == '__main__':
 
     # get list of country codes from request
     list_request = requests.get(LIST_URL)
-    flags = json.loads(list_request.content)
+    if not list_request.ok:
+        raise RuntimeError('Could not get list of flag code to download')
+    try:
+        flags = json.loads(list_request.content)
+    except json.JSONDecodeError:
+        raise RuntimeError('Could not decode flag codes json')
 
     print(f'Downloading {len(flags)} flags ({METHOD})')
 
